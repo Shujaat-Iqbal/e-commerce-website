@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 // Constants Import
 import shopData from './shop.data';
+import CollectionPreview from '../../components/collection-preview/collection-preview.component';
 
 class ShopPage extends Component {
   constructor(props) {
@@ -14,8 +15,16 @@ class ShopPage extends Component {
   }
 
   render() {
+    // State de-structuring
+    const {collections} = this.state
+
+    // JSX return
     return (
-      <div>Shop Page</div>
+      <div>
+        {
+          collections.map( ({id, ...collectionProps}) => <CollectionPreview key={id} {...collectionProps} />)
+        }
+      </div>
     );
   }
 };
