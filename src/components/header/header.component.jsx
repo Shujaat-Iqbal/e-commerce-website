@@ -31,6 +31,12 @@ const Header = () => (
       >
         CONTACT
       </Link>
+      <Link
+        className='option'
+        to='/signin'
+      >
+        SIGN IN
+      </Link>
     </div>
   </div>
 );
