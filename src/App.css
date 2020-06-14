@@ -9,3 +9,8 @@ a {
   text-decoration: none;
   color: black;
 }
+
+/* '*' specifies Universal Selector, so every element box-sizing will be border-box */
+* {
+  box-sizing: border-box;
+}

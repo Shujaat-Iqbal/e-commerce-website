@@ -1,5 +1,5 @@
 // React  Imports
-import React from 'react';
+import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 // Styles Import
@@ -11,18 +11,44 @@ import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import AuthenticationPage from './pages/authentication/authentication.component';
 
-function App() {
-  return (
-    <div>
-      <Header />
-      {/* Routing */}
-      <Switch>
-        <Route exact path='/' component={HomePage} />
-        <Route exact path='/shop' component={ShopPage} />
-        <Route exact path='/signin' component={AuthenticationPage} />
-      </Switch>
-    </div>
-  );
-}
+// Firease Utils Import
+import { auth } from './firebase/firebase.utils';
+
+class App extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      currentUser: null
+    };
+  }
+
+  unsubscribeAuth = null;
+
+  componentDidMount() {
+    this.unsubscribeAuth = auth.onAuthStateChanged(user => {
+      this.setState({ currentUser: user });
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeAuth();
+  }
+
+  render() {
+    return (
+      <div>
+        <Header currentUser={this.state.currentUser} />
+        {/* Routing */}
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route exact path='/shop' component={ShopPage} />
+          <Route exact path='/signin' component={AuthenticationPage} />
+        </Switch>
+      </div>
+    );
+  }
+};
 
 export default App;
