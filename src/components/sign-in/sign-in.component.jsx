@@ -9,7 +9,7 @@ import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 // FireBase Util Import
-import { signInWithGoogle } from '../../firebase/firebase.utils';
+import { signInWithGoogle, auth } from '../../firebase/firebase.utils';
 
 class SignIn extends Component {
   constructor(props) {
@@ -25,13 +25,21 @@ class SignIn extends Component {
    * Resets state on form submit
    * @param {SyntheticEvent} event
    */
-  handleFormSubmit = event => {
+  handleFormSubmit = async event => {
     // preventDefault tells the user agent that if the event does not get explicitly handled,
     // its default action should not be taken as it normally would be. The event continues to
     // propagate as usual, unless one of its event listeners calls stopPropagation() or
     // stopImmediatePropagation(), either of which terminates propagation at once.
     event.preventDefault();
-    this.setState({ email: '', password: '' });
+
+    const { email, password } = this.state;
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      this.setState({ email: '', password: '' });
+    } catch (error) {
+      console.error('error while logging user in. ', error.message);
+    }
   }
 
   /**
