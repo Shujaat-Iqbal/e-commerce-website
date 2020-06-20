@@ -12,7 +12,7 @@ import Header from './components/header/header.component';
 import AuthenticationPage from './pages/authentication/authentication.component';
 
 // Firease Utils Import
-import { auth } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 class App extends Component {
 
@@ -27,8 +27,24 @@ class App extends Component {
   unsubscribeAuth = null;
 
   componentDidMount() {
-    this.unsubscribeAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
+    this.unsubscribeAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        // Retrieving data from snapShot and assigning it to currentUser
+        userRef.onSnapshot(userData => {
+          this.setState({
+            currentUser: {
+              id: userData.id,
+              ...userData.data()
+            }
+          });
+        });
+      } else {
+        // Assigning null to currentUser in case of user being null
+        // so our app is aware that there is no user
+        this.setState({ currentUser: userAuth });
+      }
     });
   }
 

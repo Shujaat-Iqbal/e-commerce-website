@@ -16,6 +16,41 @@ const config = {
   measurementId: "G-HLZYTE8HVV"
 };
 
+/**
+ * Creates a user in firestore if it doesn't exist
+ * @param userAuth
+ * @param secondaryProperties
+ * @returns {documentRef} Reference of current user
+ */
+export const createUserProfileDocument = async (userAuth, secondaryProperties) => {
+  if (userAuth) {
+
+    // firestore returns document reference object from which we can retrieve the snapshot object
+    const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+    // from snapshot object we can determine whether or not there is any data in our object or not
+    const snapShot = await userRef.get();
+
+    if (!snapShot.exists) {
+      const { displayName, email } = userAuth;
+      const createdAt = new Date();
+
+      try {
+        userRef.set({
+          displayName,
+          email,
+          createdAt,
+          ...secondaryProperties
+        });
+      } catch (error) {
+        console.error('error while creating user. ', error.message);
+      }
+    }
+
+    return userRef;
+  }
+}
+
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
