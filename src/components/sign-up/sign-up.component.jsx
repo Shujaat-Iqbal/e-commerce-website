@@ -1,8 +1,14 @@
+// React Import
 import React, { Component } from 'react';
 
+// Styles Import
 import './sign-up.styles.scss';
+
+// Component Import
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+
+// Firease Utils Import
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 class SignUp extends Component {
@@ -37,6 +43,7 @@ class SignUp extends Component {
       return;
     }
 
+    // Creating User
     try {
       const { user } = await auth.createUserWithEmailAndPassword(email, password);
       await createUserProfileDocument(user, { displayName });
@@ -70,7 +77,7 @@ class SignUp extends Component {
         <span>Sign up with your email and password</span>
 
         {/* Sign Up Form */}
-        <form className='sign-up-form'>
+        <form className='sign-up-form' onSubmit={this.handleFormSubmit}>
           {/* Form Inputs */}
           <FormInput
             name='displayName'
