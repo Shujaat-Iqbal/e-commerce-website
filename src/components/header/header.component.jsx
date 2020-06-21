@@ -12,6 +12,9 @@ import { ReactComponent as Logo } from '../../assets/icons/crown.svg';
 // Firebase Util Import
 import { auth } from '../../firebase/firebase.utils';
 
+// Redux HOC import
+import { connect } from 'react-redux';
+
 const Header = ({ currentUser }) => (
   <div className='header'>
     {/* Logo */}
@@ -55,4 +58,12 @@ const Header = ({ currentUser }) => (
   </div>
 );
 
-export default Header;
+/**
+ * maps required properties from state to our props which we can then use inside our component through connect
+ * @param {storeObject} state
+ */
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(Header);
