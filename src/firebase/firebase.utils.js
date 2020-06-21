@@ -6,14 +6,7 @@ import 'firebase/firestore';
 import 'firebase/auth'
 
 const config = {
-  apiKey: "AIzaSyD2RDxt1HipvGlr8lQozVspIaKpo2YWpVY",
-  authDomain: "shoping-webapp.firebaseapp.com",
-  databaseURL: "https://shoping-webapp.firebaseio.com",
-  projectId: "shoping-webapp",
-  storageBucket: "shoping-webapp.appspot.com",
-  messagingSenderId: "1069220559532",
-  appId: "1:1069220559532:web:801c777b703d68e849fd09",
-  measurementId: "G-HLZYTE8HVV"
+  // FirebaseKey
 };
 
 /**
