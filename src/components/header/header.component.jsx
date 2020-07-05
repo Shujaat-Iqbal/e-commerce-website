@@ -15,6 +15,10 @@ import { auth } from '../../firebase/firebase.utils';
 // Redux HOC import
 import { connect } from 'react-redux';
 
+// Components Imoprt
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+
 const Header = ({ currentUser }) => (
   <div className='header'>
     {/* Logo */}
@@ -54,7 +58,11 @@ const Header = ({ currentUser }) => (
             </Link>
           )
       }
+      <CartIcon />
     </div>
+
+    {/* Cart DropDown */}
+    <CartDropdown />
   </div>
 );
 
