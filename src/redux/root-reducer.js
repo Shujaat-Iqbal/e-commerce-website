@@ -5,8 +5,10 @@ import { combineReducers } from 'redux';
 
 // Reducer Import
 import userReducer from './user/user.reducer';
+import cartReducer from './cart/cart.reducer';
 
 // Combined reducers
 export default combineReducers({
-  user: userReducer
+  user: userReducer,
+  cart: cartReducer
 });

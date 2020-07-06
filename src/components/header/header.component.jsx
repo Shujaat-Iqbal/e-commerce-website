@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, hide }) => (
   <div className='header'>
     {/* Logo */}
     <Link className='logo-container' to='/'>
@@ -62,16 +62,21 @@ const Header = ({ currentUser }) => (
     </div>
 
     {/* Cart DropDown */}
-    <CartDropdown />
+    {
+      hide
+        ? null
+        : <CartDropdown />
+    }
   </div>
 );
 
 /**
  * maps required properties from state to our props which we can then use inside our component through connect
- * @param {storeObject} state
+ * @param {storeObject} state (destructured)
  */
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+const mapStateToProps = ({user: {currentUser}, cart: {hide}}) => ({
+  currentUser,
+  hide
 });
 
 export default connect(mapStateToProps)(Header);
