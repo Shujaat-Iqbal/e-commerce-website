@@ -1,5 +1,8 @@
+// Utils Import
+import { addItemToCart } from "./cart.utils";
+
 // Action Types Import
-const { cartActionTypes } = require("./cart.types");
+import { cartActionTypes } from './cart.types';
 
 // Initial state for cart
 const INITIAL_STATE = {
@@ -17,7 +20,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
     case cartActionTypes.ADD_ITEM:
       return {
         ...state,
-        cartItems: [...state.cartItems, action.payload]
+        cartItems: addItemToCart(state.cartItems, action.payload)
       };
     default:
       return state;
