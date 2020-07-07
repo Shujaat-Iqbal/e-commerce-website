@@ -3,7 +3,8 @@ const { cartActionTypes } = require("./cart.types");
 
 // Initial state for cart
 const INITIAL_STATE = {
-  hide: true
+  hide: true,
+  cartItems: []
 };
 
 const cartReducer = (state = INITIAL_STATE, action) => {
@@ -12,7 +13,12 @@ const cartReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         hide: !state.hide
-      }
+      };
+    case cartActionTypes.ADD_ITEM:
+      return {
+        ...state,
+        cartItems: [...state.cartItems, action.payload]
+      };
     default:
       return state;
   };
