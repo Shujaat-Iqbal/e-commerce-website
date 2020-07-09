@@ -17,8 +17,10 @@ import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 // Redux HOC import
 import { connect } from 'react-redux';
 
-// Action Import
+// Redux Imports
 import { setCurrentUser } from './redux/user/user.actions';
+import { selectCurrentUser } from './redux/user/user.selectors';
+import { createStructuredSelector } from 'reselect';
 
 class App extends Component {
 
@@ -75,8 +77,8 @@ class App extends Component {
  * maps required properties from state to our props which we can then use inside our component through connect
  * @param {storeObject} state
  */
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 });
 
 /**

@@ -19,6 +19,11 @@ import { connect } from 'react-redux';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
+// Redux Imports
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
+import { createStructuredSelector } from 'reselect'; // used for multiple states
+
 const Header = ({ currentUser, hide }) => (
   <div className='header'>
     {/* Logo */}
@@ -72,11 +77,11 @@ const Header = ({ currentUser, hide }) => (
 
 /**
  * maps required properties from state to our props which we can then use inside our component through connect
- * @param {storeObject} state (destructured)
+ * @param {storeObject} state passed on to createStructuredSelector which then uses it for multiple states 
  */
-const mapStateToProps = ({user: {currentUser}, cart: {hide}}) => ({
-  currentUser,
-  hide
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  hide: selectCartHidden
 });
 
 export default connect(mapStateToProps)(Header);

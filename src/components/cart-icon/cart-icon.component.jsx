@@ -12,6 +12,7 @@ import { ReactComponent as ShoppingIcon } from '../../assets/icons/shopping-bag.
 import { connect } from 'react-redux';
 import { toggleCartHidden } from '../../redux/cart/cart.actions';
 import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
+import { createStructuredSelector } from 'reselect';
 
 const CartIcon = ({ toggleCartHidden, itemCount }) => (
   <div
@@ -33,10 +34,9 @@ const mapDispatchToProps = dispatch => ({
 
 /**
  * maps required properties from state to our props which we can then use inside our component through connect
- * @param {storeObject} state
  */
-const mapStateToProps = (state) => ({
-  itemCount: selectCartItemsCount(state)
+const mapStateToProps = createStructuredSelector({
+  itemCount: selectCartItemsCount
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
