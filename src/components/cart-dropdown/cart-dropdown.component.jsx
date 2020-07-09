@@ -1,5 +1,6 @@
 // React Import
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 // Styles Import
 import './cart-dropdown.styles.scss';
@@ -13,16 +14,18 @@ import { connect } from 'react-redux';
 import { selectCartItems } from '../../redux/cart/cart.selectors';
 import { createStructuredSelector } from 'reselect';
 
-const CartDropdown = ({ cartItems }) => (
+const CartDropdown = ({ cartItems, history }) => (
   <div className='cart-dropdown'>
     <div className='cart-items'>
       {
-        cartItems.map(cartItem => (
-          <CartItem key={cartItem.id} item={cartItem} />
-        ))
+        cartItems.length
+          ? cartItems.map(cartItem => (
+            <CartItem key={cartItem.id} item={cartItem} />
+          ))
+          : <span className='empty-message'>Your cart is empty</span>
       }
     </div>
-    <CustomButton>GO TO THE CHECKOUT</CustomButton>
+    <CustomButton onClick={() => history.push('/checkout')}>GO TO THE CHECKOUT</CustomButton>
   </div>
 );
 
@@ -33,4 +36,7 @@ const mapStateToProps = createStructuredSelector({
   cartItems: selectCartItems
 });
 
-export default connect(mapStateToProps)(CartDropdown);
+// Reason we can use multiple HOCs are that each one takes a Component & returns an
+// Updated component so it won't create an issue ecause one's output can e taken as
+// others Input. Order matters though. It computes from inside out
+export default withRouter(connect(mapStateToProps)(CartDropdown));
