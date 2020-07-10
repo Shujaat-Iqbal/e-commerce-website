@@ -13,8 +13,9 @@ import CartItem from '../cart-item/cart-item.component';
 import { connect } from 'react-redux';
 import { selectCartItems } from '../../redux/cart/cart.selectors';
 import { createStructuredSelector } from 'reselect';
+import { toggleCartHidden } from '../../redux/cart/cart.actions';
 
-const CartDropdown = ({ cartItems, history }) => (
+const CartDropdown = ({ cartItems, history, dispatch }) => (
   <div className='cart-dropdown'>
     <div className='cart-items'>
       {
@@ -25,7 +26,14 @@ const CartDropdown = ({ cartItems, history }) => (
           : <span className='empty-message'>Your cart is empty</span>
       }
     </div>
-    <CustomButton onClick={() => history.push('/checkout')}>GO TO THE CHECKOUT</CustomButton>
+    <CustomButton
+      onClick={() =>{
+        history.push('/checkout');
+        dispatch(toggleCartHidden())
+      }}
+    >
+      GO TO THE CHECKOUT
+    </CustomButton>
   </div>
 );
 
@@ -40,3 +48,5 @@ const mapStateToProps = createStructuredSelector({
 // Updated component so it won't create an issue ecause one's output can e taken as
 // others Input. Order matters though. It computes from inside out
 export default withRouter(connect(mapStateToProps)(CartDropdown));
+// connect() if we don't pass second argument into connect, it passes the dispatch
+// into our component.
