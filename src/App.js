@@ -58,7 +58,6 @@ class App extends Component {
         {/* Routing */}
         <Switch>
           <Route exact path='/' component={HomePage} />
-          <Route exact path='/shop' component={ShopPage} />
           <Route exact path='/checkout' component={Checkout} />
           <Route
             exact
@@ -69,6 +68,7 @@ class App extends Component {
                 : (<AuthenticationPage />) 
             }
           />
+          <Route path='/shop' component={ShopPage} />
         </Switch>
       </div>
     );
