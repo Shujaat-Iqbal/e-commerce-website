@@ -6,7 +6,7 @@ import StripeCheckout from 'react-stripe-checkout';
 
 const StripeCheckoutButton = ({ price }) => {
   const priceForStripe = price * 100 // Stripe wants payment in cents
-  const pulishableKey = 'pk_test_51H9Ce4LSO79Gfjc3362gi8RhT6HFigUFj62fJvVHRTON295udAZrFUmVRNfR7VWRzAbHx7rX9YbA84YQdHhEist900374EFkNi';
+  const pulishableKey = 'api-key';
 
   /**
    * on token handler for payment button
