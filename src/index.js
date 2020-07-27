@@ -15,8 +15,8 @@ import App from './App';
 import { store, persistor } from './redux/store';
 
 ReactDOM.render(
-  // Provider gives access to eveything related to the store to the whole app.
   <Provider store={store}>
+    {/* Provider gives access to eveything related to the store to the whole app. */}
     {/* 
       BrowserRouter provides all of the routing functionality provided by react-router-dom
       to whatever component is wrapped inside it. In our case that's our app.

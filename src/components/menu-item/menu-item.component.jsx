@@ -9,7 +9,6 @@ import { withRouter } from 'react-router-dom';
 
 const MenuItem = ({ title, imageUrl, size, ...props }) => {
   return(
-    // In current state, app isn't handling linkUrl for each item so a blank page will bbe displayed once clicked
     <div className={`${size} menu-item`}
         onClick={() => props.history.push(`${props.linkUrl}`)}
     >
