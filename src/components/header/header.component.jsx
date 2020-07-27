@@ -12,7 +12,7 @@ import { auth } from '../../firebase/firebase.utils';
 import { connect } from 'react-redux';
 
 // Styled Components Imports
-import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv } from './header.styles';
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink } from './header.styles';
 
 // Components Imoprt
 import CartIcon from '../cart-icon/cart-icon.component';
@@ -44,11 +44,12 @@ const Header = ({ currentUser, hide }) => (
       {
         currentUser
           ? (
-            <OptionDiv
+            <OptionLink
+              as='div'
               onClick={() => auth.signOut()}
             >
               SIGN OUT
-            </OptionDiv>
+            </OptionLink>
           )
           : (
             <OptionLink

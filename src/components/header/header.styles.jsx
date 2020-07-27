@@ -2,15 +2,7 @@
 import { Link } from 'react-router-dom';
 
 // Styled Import
-import styled, { css } from 'styled-components';
-// css lets us write css code block and then it can e used in components
-// Useful for multiple different components, tags using same styles
-
-// Reusable Styles
-const OptionContainerStyles = css`
-  padding: 10px 15px;
-  cursor: pointer;
-`;
+import styled from 'styled-components';
 
 // Styled Components
 export const HeaderContainer = styled.div`
@@ -36,9 +28,6 @@ export const OptionsContainer = styled.div`
 `;
 
 export const OptionLink = styled(Link)`
-  ${OptionContainerStyles}
-`;
-
-export const OptionDiv = styled.div`
-  ${OptionContainerStyles}
+  padding: 10px 15px;
+  cursor: pointer;
 `;
