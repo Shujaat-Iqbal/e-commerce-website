@@ -1,9 +1,5 @@
 // React Import
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-// Styles Import
-import './header.component.styles.scss';
 
 // Logo Import
 // ReactComponent in SVG import tells Create React App that you want a React component that renders an SVG, rather than its filename
@@ -15,6 +11,9 @@ import { auth } from '../../firebase/firebase.utils';
 // Redux HOC import
 import { connect } from 'react-redux';
 
+// Styled Components Imports
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv } from './header.styles';
+
 // Components Imoprt
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
@@ -25,46 +24,42 @@ import { selectCartHidden } from '../../redux/cart/cart.selectors';
 import { createStructuredSelector } from 'reselect'; // used for multiple states
 
 const Header = ({ currentUser, hide }) => (
-  <div className='header'>
+  <HeaderContainer>
     {/* Logo */}
-    <Link className='logo-container' to='/'>
+    <LogoContainer to='/'>
       <Logo className='logo' />
-    </Link>
+    </LogoContainer>
     {/* Options */}
-    <div className='options'>
-      <Link
-        className='option'
+    <OptionsContainer>
+      <OptionLink
         to='/shop'
       >
         SHOP
-      </Link>
-      <Link
-        className='option'
+      </OptionLink>
+      <OptionLink
         to='/contact'
       >
         CONTACT
-      </Link>
+      </OptionLink>
       {
         currentUser
           ? (
-            <div
-              className='option'
+            <OptionDiv
               onClick={() => auth.signOut()}
             >
               SIGN OUT
-            </div>
+            </OptionDiv>
           )
           : (
-            <Link
-              className='option'
+            <OptionLink
               to='/signin'
             >
               SIGN IN
-            </Link>
+            </OptionLink>
           )
       }
       <CartIcon />
-    </div>
+    </OptionsContainer>
 
     {/* Cart DropDown */}
     {
@@ -72,7 +67,7 @@ const Header = ({ currentUser, hide }) => (
         ? null
         : <CartDropdown />
     }
-  </div>
+  </HeaderContainer>
 );
 
 /**
