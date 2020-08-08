@@ -13,7 +13,7 @@ import AuthenticationPage from './pages/authentication/authentication.component'
 import Checkout from './pages/checkout/checkout.component';
 
 // Firease Utils Import
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument, addCollectionAndDocuments } from './firebase/firebase.utils';
 
 // Redux HOC import
 import { connect } from 'react-redux';
@@ -22,13 +22,14 @@ import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { createStructuredSelector } from 'reselect';
+import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 
 class App extends Component {
 
   unsubscribeAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+    const { setCurrentUser, collectionsArray } = this.props;
     this.unsubscribeAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
@@ -45,6 +46,12 @@ class App extends Component {
       // so our app is aware that there is no user or a user until our store is modified with snapshot data
       setCurrentUser(userAuth);
     });
+
+    // Adding collections to firestore
+    addCollectionAndDocuments(
+      'collections',
+      collectionsArray.map(({ title, items }) => ({ title, items }))
+    );
   }
 
   componentWillUnmount() {
@@ -80,7 +87,8 @@ class App extends Component {
  * @param {storeObject} state
  */
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  collectionsArray: selectCollectionsForPreview
 });
 
 /**
