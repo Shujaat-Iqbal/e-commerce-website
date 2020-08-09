@@ -84,7 +84,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 /**
- * maps dispatch actions to somponent props
+ * maps dispatch actions to component props
  * @param dispatch
  */
 const mapDispatchToProps = dispatch => ({

@@ -63,6 +63,33 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
   return await batch.commit();
 }
 
+/**
+ * Transforms received collection data from array to hash tabble or json object as expected bby our current implementation
+ * @param {any} collections
+ * @returns {any} Updated object for collection
+ */
+export const convertCollectionsSnapshotToMap = collections => {
+
+  // .docs exists on the snapshot object for collection containing all the documents in a collection
+  const transformdCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data();
+
+    // Forming data in required format
+    return {
+      routeName: encodeURI(title.toLowerCase()), // JS function to map strings according to URL format
+      id: doc.id,
+      title,
+      items
+    }
+  });
+
+  // Transforming array to object in order to achieve data normalization
+  return transformdCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator;
+  }, {} /* empty object as accumulative value */)
+}
+
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
