@@ -13,12 +13,12 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
   [selectCollections],
-  collections => Object.keys(collections).map((key) => collections[key])
+  collections => collections ? Object.keys(collections).map((key) => collections[key]) : []
 );
 
 // Concept displayed here is Currying i.e. instead of taking multiple parameters take one at a time
 // And the later parameter has access to the previous ones because of closures
 export const selectCollection = collectionUrlParam => createSelector(
   [selectCollections],
-  collections => collections[collectionUrlParam]
+  collections => collections ? collections[collectionUrlParam] : null
 )

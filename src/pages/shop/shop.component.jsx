@@ -13,7 +13,19 @@ import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/fireb
 import { updateCollections } from '../../redux/shop/shop.actions';
 import { connect } from 'react-redux';
 
+// Custom HOC component Import
+import withSpinner from '../../components/with-spinner/with-spinner.component';
+
+// Wrapped components with spinner
+const CollectionOverviewWithSpinnner = withSpinner(CollectionOverview);
+const CollectionPageWithSpinnner = withSpinner(CollectionPage);
+
 class ShopPage extends Component {
+
+  // Component State
+  state = {
+    loading: true
+  };
 
   // Used to unsubscribe from collection snapshot on component destroy to avoid memory leaks
   unsubscribeFromSnapshot = null;
@@ -24,19 +36,22 @@ class ShopPage extends Component {
     // Colllection reference for collections
     const collectionRef = firestore.collection('collections');
 
+    // Normalizing snapshot data
     collectionRef.onSnapshot(async snapshot => {
       const collections = convertCollectionsSnapshotToMap(snapshot);
       updateCollections(collections); // Updating Store
+      this.setState({ loading: false });
     });
   }
 
   render() {
     const { match } = this.props;
+    const { loading } = this.state;
     return (
       <div>
-        <Route exact path={`${match.path}`} component={CollectionOverview} />
+        <Route exact path={`${match.path}`} render={() => (<CollectionOverviewWithSpinnner isLoading={loading} />)} />
         {/* ':' provides us to pass text from that point as a parameter to the component it points to */}
-        <Route path={`${match.path}/:collectionId`} component={CollectionPage} />
+        <Route path={`${match.path}/:collectionId`} render={(props) => (<CollectionPageWithSpinnner isLoading={loading} {...props} />)} />
       </div>
     );
   }
