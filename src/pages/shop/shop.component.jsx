@@ -2,22 +2,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
-// Component Import
-import CollectionOverview from '../../components/collections-overview/collections-overview.component';
-import CollectionPage from '../collection/collection.component';
-
 // Redux Imports
 import { fetchCollectionStartAsync } from '../../redux/shop/shop.actions';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { selectIsCollectionFetching, selectIsCollectionLoaded } from '../../redux/shop/shop.selectors';
 
-// Custom HOC component Import
-import withSpinner from '../../components/with-spinner/with-spinner.component';
-
-// Wrapped components with spinner
-const CollectionOverviewWithSpinnner = withSpinner(CollectionOverview);
-const CollectionPageWithSpinnner = withSpinner(CollectionPage);
+// Container component Imports
+import CollectionOverviewContainer from '../../components/collections-overview/collection-overview.container';
+import CollectionPageContainer from '../collection/collection.container';
 
 class ShopPage extends Component {
   componentDidMount() {
@@ -26,41 +17,23 @@ class ShopPage extends Component {
   }
 
   render() {
-    const { match, isCollectionFetching, isCollectionLoaded } = this.props;
+    const { match } = this.props;
     return (
       <div>
         <Route
           exact
           path={`${match.path}`}
-          render={() => (
-            <CollectionOverviewWithSpinnner
-              isLoading={isCollectionFetching}
-            />
-          )}
+          component={CollectionOverviewContainer}
         />
         {/* ':' provides us to pass text from that point as a parameter to the component it points to */}
         <Route
           path={`${match.path}/:collectionId`}
-          render={(props) => (
-            <CollectionPageWithSpinnner
-              isLoading={!isCollectionLoaded}
-              {...props}
-            />
-          )}
+          component={CollectionPageContainer}
         />
       </div>
     );
   }
 };
-
-/**
- * maps required properties from state to our props which we can then use inside our component through connect
- * @param {storeObject} state
- */
-const mapStateToProps = createStructuredSelector({
-  isCollectionFetching: selectIsCollectionFetching,
-  isCollectionLoaded: selectIsCollectionLoaded
-});
 
 /**
  * maps dispatch actions to component props
@@ -70,4 +43,4 @@ const mapDispatchToProps = dispatch => ({
   fetchCollectionStartAsync: () => dispatch(fetchCollectionStartAsync())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShopPage);
+export default connect(null, mapDispatchToProps)(ShopPage);
