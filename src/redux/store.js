@@ -1,6 +1,7 @@
 // Redux Imports
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore } from 'redux-persist';
+import thunk from 'redux-thunk';
 
 // Logger Import
 import logger from 'redux-logger';
@@ -9,7 +10,7 @@ import logger from 'redux-logger';
 import rootReducer from './root-reducer';
 
 // middlewares array is used to store all middlewsres to be used by store
-const middlewares = [];
+const middlewares = [thunk];
 
 // Environment Setup
 if (process.env.NODE_ENV === 'development') {
