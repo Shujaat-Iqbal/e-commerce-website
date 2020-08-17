@@ -1,16 +1,22 @@
 // Redux Imports
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore } from 'redux-persist';
-import thunk from 'redux-thunk';
 
-// Logger Import
+// Middleware Importa
 import logger from 'redux-logger';
+import createSagaMiddleware from 'redux-saga';
 
 // Reducer Import
 import rootReducer from './root-reducer';
 
+// Sagas Imports
+import { fetchCollectionsStart } from './shop/shop.sagas';
+
+// Saga middleware
+const sagaMiddleware = createSagaMiddleware();
+
 // middlewares array is used to store all middlewsres to be used by store
-const middlewares = [thunk];
+const middlewares = [sagaMiddleware];
 
 // Environment Setup
 if (process.env.NODE_ENV === 'development') {
@@ -18,6 +24,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
+
+// Sagas Run (takes on individual written sagas to e listened)
+sagaMiddleware.run(fetchCollectionsStart);
 
 // Persisted version of the store
 export const persistor = persistStore(store);
