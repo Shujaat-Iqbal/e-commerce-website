@@ -9,8 +9,8 @@ import createSagaMiddleware from 'redux-saga';
 // Reducer Import
 import rootReducer from './root-reducer';
 
-// Sagas Imports
-import { fetchCollectionsStart } from './shop/shop.sagas';
+// Sagas Import
+import { rootSaga } from './root-saga';
 
 // Saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -25,8 +25,8 @@ if (process.env.NODE_ENV === 'development') {
 
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
-// Sagas Run (takes on individual written sagas to e listened)
-sagaMiddleware.run(fetchCollectionsStart);
+// Sagas Run (takes on individual written sagas to be listened)
+sagaMiddleware.run(rootSaga);
 
 // Persisted version of the store
 export const persistor = persistStore(store);
