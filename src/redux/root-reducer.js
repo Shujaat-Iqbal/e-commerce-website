@@ -15,7 +15,7 @@ import shopReducer from './shop/shop.reducer';
 const persistConfig = {
   key: 'root',
   storage, // local storage
-  whiteList: ['cart'] // contains list of reducer to be added in storage
+  whitelist: ['cart'] // contains list of reducer to be added in storage
 };
 
 // Combined reducers
