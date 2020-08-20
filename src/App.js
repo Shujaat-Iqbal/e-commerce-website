@@ -12,14 +12,11 @@ import Header from './components/header/header.component';
 import AuthenticationPage from './pages/authentication/authentication.component';
 import Checkout from './pages/checkout/checkout.component';
 
-// Firease Utils Import
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-
 // Redux HOC import
 import { connect } from 'react-redux';
 
 // Redux Imports
-import { setCurrentUser } from './redux/user/user.actions';
+import { checkUserSession } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { createStructuredSelector } from 'reselect';
 
@@ -28,23 +25,8 @@ class App extends Component {
   unsubscribeAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
-    this.unsubscribeAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-
-        // Retrieving data from snapShot and assigning it to currentUser
-        userRef.onSnapshot(userData => {
-          setCurrentUser({
-            id: userData.id,
-            ...userData.data()
-          });
-        });
-      }
-      // Assigning null or full object to currentUser in case of user being null or delay in snapshot response
-      // so our app is aware that there is no user or a user until our store is modified with snapshot data
-      setCurrentUser(userAuth);
-    });
+    const { checkUserSession } = this.props;
+    checkUserSession();
   }
 
   componentWillUnmount() {
@@ -88,7 +70,7 @@ const mapStateToProps = createStructuredSelector({
  * @param dispatch
  */
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkUserSession: () => dispatch(checkUserSession())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

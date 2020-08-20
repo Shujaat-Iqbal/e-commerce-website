@@ -90,6 +90,19 @@ export const convertCollectionsSnapshotToMap = collections => {
   }, {} /* empty object as accumulative value */)
 }
 
+/**
+ * Returns User object if there is a user logged in otherwise null
+ * @returns {any}
+ */
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth)
+    }, reject)
+  })
+}
+
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
@@ -97,10 +110,10 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 // For Google Authentication
-const provider = new firebase.auth.GoogleAuthProvider();
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
 // Following will prompth the google popup whenever we use provider
-provider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+googleProvider.setCustomParameters({ prompt: 'select_account' });
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 // Full Library export
 export default firebase;
