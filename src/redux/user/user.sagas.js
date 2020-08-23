@@ -3,7 +3,7 @@ import { takeLatest, put, call, all } from 'redux-saga/effects';
 
 // Actions & its Types Import 
 import userActionTypes from "./user.types";
-import { signInSuccess, signInFailure } from './user.actions';
+import { signInSuccess, signInFailure, signOutFailure, signOutStart } from './user.actions';
 
 // firebase Utils Import
 import { auth, googleProvider, createUserProfileDocument, getCurrentUser } from '../../firebase/firebase.utils';
@@ -52,6 +52,16 @@ export function* isUserActive() {
   }
 }
 
+export function* signOut() {
+  try {
+    yield auth.signOut();
+
+    yield put(signOutStart());
+  } catch (error) {
+    yield put(signOutFailure(error.message));
+  }
+}
+
 // Listener Generator functions
 export function* onGoogleSignInStart() {
   yield takeLatest(
@@ -72,6 +82,13 @@ export function* onCheckUserSession() {
     userActionTypes.CHECK_USER_SESSION,
     isUserActive
   );
+}
+
+export function* onSignOutStart() {
+  yield takeLatest(
+    userActionTypes.SIGN_OUT_START,
+    signOut
+  )
 }
 
 // User Saga

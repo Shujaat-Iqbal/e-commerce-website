@@ -5,9 +5,6 @@ import React from 'react';
 // ReactComponent in SVG import tells Create React App that you want a React component that renders an SVG, rather than its filename
 import { ReactComponent as Logo } from '../../assets/icons/crown.svg';
 
-// Firebase Util Import
-import { auth } from '../../firebase/firebase.utils';
-
 // Redux HOC import
 import { connect } from 'react-redux';
 
@@ -22,8 +19,9 @@ import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectCartHidden } from '../../redux/cart/cart.selectors';
 import { createStructuredSelector } from 'reselect'; // used for multiple states
+import { signOutStart } from '../../redux/user/user.actions';
 
-const Header = ({ currentUser, hide }) => (
+const Header = ({ currentUser, hide, signOutStart }) => (
   <HeaderContainer>
     {/* Logo */}
     <LogoContainer to='/'>
@@ -46,7 +44,7 @@ const Header = ({ currentUser, hide }) => (
           ? (
             <OptionLink
               as='div'
-              onClick={() => auth.signOut()}
+              onClick={signOutStart}
             >
               SIGN OUT
             </OptionLink>
@@ -80,4 +78,12 @@ const mapStateToProps = createStructuredSelector({
   hide: selectCartHidden
 });
 
-export default connect(mapStateToProps)(Header);
+/**
+ * maps dispatch actions to component props
+ * @param dispatch
+ */
+const mapDispatchToProps = dispatch => ({
+  signOutStart: () => dispatch(signOutStart())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
