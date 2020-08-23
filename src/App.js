@@ -22,15 +22,9 @@ import { createStructuredSelector } from 'reselect';
 
 class App extends Component {
 
-  unsubscribeAuth = null;
-
   componentDidMount() {
     const { checkUserSession } = this.props;
     checkUserSession();
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeAuth();
   }
 
   render() {
