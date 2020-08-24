@@ -8,8 +8,9 @@ import './sign-up.styles.scss';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-// Firease Utils Import
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+// Redux Imports
+import { connect } from 'react-redux';
+import { signUpStart } from '../../redux/user/user.actions';
 
 class SignUp extends Component {
 
@@ -37,25 +38,15 @@ class SignUp extends Component {
 
     // Destructuring required fields from state
     const { displayName, email, password, confirmPassword } = this.state;
-  
+    const { signUpStart } = this.props;
+
     if (password !== confirmPassword) {
       alert("Passwords Don't match");
       return;
     }
 
-    // Creating User
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(email, password);
-      await createUserProfileDocument(user, { displayName });
-      this.setState({
-        displayName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      });
-    } catch(error) {
-      console.error('error while creating user. ', error.message);
-    }
+    // Starting up sign up process in sagas
+    signUpStart({ email, password, displayName });
   }
 
   /**
@@ -121,4 +112,12 @@ class SignUp extends Component {
 
 };
 
-export default SignUp;
+/**
+ * Maps dispatch actions to component props via connect
+ * @param dispatch
+ */
+const mapDispatchToProps = dispatch => ({
+  signUpStart: (userCredentials) => dispatch(signUpStart(userCredentials))
+});
+
+export default connect(null, mapDispatchToProps)(SignUp);
