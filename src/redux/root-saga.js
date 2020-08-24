@@ -1,12 +1,14 @@
 // Saga Imports
 import { all, call } from 'redux-saga/effects';
-import { fetchCollectionsStart } from './shop/shop.sagas';
+import { shopSaga } from './shop/shop.sagas';
 import { userSagas } from './user/user.sagas';
+import { cartSagas } from './cart/cart.sagas';
 
 // Root Saga
 export function* rootSaga() {
   yield all([
-    call(fetchCollectionsStart),
-    call(userSagas)
+    call(shopSaga),
+    call(userSagas),
+    call(cartSagas)
   ]);
 }
