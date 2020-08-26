@@ -26,7 +26,7 @@ class SignIn extends Component {
    * Resets state on form submit
    * @param {SyntheticEvent} event
    */
-  handleFormSubmit = async event => {
+  handleFormSubmit = event => {
     // preventDefault tells the user agent that if the event does not get explicitly handled,
     // its default action should not be taken as it normally would be. The event continues to
     // propagate as usual, unless one of its event listeners calls stopPropagation() or
